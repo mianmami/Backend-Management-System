@@ -1,6 +1,11 @@
 <template>
   <div class="login-container">
-    <el-form ref="form" :model="loginForm" label-width="65px">
+    <el-form
+      ref="loginForm"
+      :model="loginForm"
+      :rules="loginRules"
+      label-width="65px"
+    >
       <div class="login-title">仿今日头条后台管理系统</div>
       <el-form-item label="手机号" prop="mobile">
         <el-input v-model="loginForm.mobile"></el-input>
@@ -26,25 +31,93 @@
         ></el-checkbox>
       </el-form-item>
       <el-form-item class="btn" label-width="0">
-        <el-button type="primary">登录</el-button>
+        <el-button type="primary" @click="submitForm('loginForm')"
+          >登录</el-button
+        >
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
+import { login } from "@/api/user";
+import { mapActions, mapMutations } from "vuex";
 export default {
   name: "Login",
   data() {
+    // 判断有无勾选"agree"，必须通过自定义校验规则的方式。
+    const checkAgree = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("您必须同意该选项才可以进行后续操作"));
+      } else {
+        callback();
+      }
+    };
     return {
       loginForm: {
         mobile: "13911111111",
         code: "246810",
-        isAgree: "",
+        isAgree: true,
         checked: "",
       },
-      checked: "",
+      loginRules: {
+        mobile: [
+          { required: true, message: "手机号码不能为空", trigger: "blur" },
+          {
+            pattern: /^1[3456789]\d{9}$/,
+            message: "手机格式不对",
+            trigger: "blur",
+          },
+        ],
+        code: [
+          { required: true, message: "验证码不能为空", trigger: "blur" },
+          {
+            pattern: /^\d{6}$/,
+            message: "验证码必须为6位数字",
+            trigger: "blur",
+          },
+        ],
+        isAgree: [{ validator: checkAgree, trigger: "change" }],
+      },
     };
+  },
+  methods: {
+    // 表单验证，如果通过，就执行登录操作， 否则就退出
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          const res = this.userLogin();
+        } else {
+          return false;
+        }
+      });
+    },
+     async userLogin() {
+      try {
+        // 验证通过，跳转
+        const res = await this.onLogin(this.loginForm);
+        this.$message.success("欢迎登录")
+        this.$router.push("/");
+        // 验证通过的同时，把账号和密码通过加密的方式，保存到cookie中
+      } catch (err) {
+        const { response } = err;
+        if (response && response.status === 400) {
+          this.$message.error("手机号码或验证码不对");
+        } else if (response && response.status === 403) {
+          this.$message.error("权限不足无法登录");
+        } else if (response && response.status === 507) {
+          this.$message.error("数据异常");
+        } else {
+        }
+      }
+      
+    },
+    
+    ...mapActions(["onLogin"]),
+  },
+
+  updated() {
+    
   },
 };
 </script>

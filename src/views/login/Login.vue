@@ -31,8 +31,8 @@
         ></el-checkbox>
       </el-form-item>
       <el-form-item class="btn" label-width="0">
-        <el-button type="primary" @click="submitForm('loginForm')"
-          >登录</el-button
+        <el-button type="primary" @click="submitForm('loginForm')" :loading='isLoading'
+          >{{isLoading ? "登录中" : "登录"}}</el-button
         >
       </el-form-item>
     </el-form>
@@ -42,6 +42,7 @@
 <script>
 import { login } from "@/api/user";
 import { mapActions, mapMutations } from "vuex";
+import CryptoJS from 'crypto-js'
 export default {
   name: "Login",
   data() {
@@ -55,10 +56,12 @@ export default {
     };
     return {
       loginForm: {
-        mobile: "13911111111",
-        code: "246810",
+        // mobile: "13911111111",
+        // code: "246810",
+        mobile: "",
+        code: "",
         isAgree: true,
-        checked: "",
+        checked: true,
       },
       loginRules: {
         mobile: [
@@ -79,9 +82,11 @@ export default {
         ],
         isAgree: [{ validator: checkAgree, trigger: "change" }],
       },
+      isLoading: false
     };
   },
   methods: {
+    ...mapActions(["onLogin"]),
     // 表单验证，如果通过，就执行登录操作， 否则就退出
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -94,11 +99,19 @@ export default {
     },
      async userLogin() {
       try {
+        this.isLoading = true
         // 验证通过，跳转
         const res = await this.onLogin(this.loginForm);
         this.$message.success("欢迎登录")
-        this.$router.push("/");
+        // this.$router.push("/content");
         // 验证通过的同时，把账号和密码通过加密的方式，保存到cookie中
+        if (this.loginForm.checked == true) {
+          this.setCookie(this.loginForm.mobile, this.loginForm.code, 7)
+        } else {
+          this.clearCookie()
+        }
+
+        this.isLoading = false;
       } catch (err) {
         const { response } = err;
         if (response && response.status === 400) {
@@ -109,15 +122,44 @@ export default {
           this.$message.error("数据异常");
         } else {
         }
+
+        this.isLoading = false;
       }
       
     },
     
-    ...mapActions(["onLogin"]),
+    
+    setCookie (mobile, code, exdays) {
+      // 加密参考资料 https://devnote.pro/posts/10000051981222
+      const pwdCode = CryptoJS.AES.encrypt(code, "secret key 123");
+      const d = new Date()
+      d.setTime(d.getTime() + exdays * 24 * 60 *60 *1000);
+      document.cookie = "mobile=" + mobile + ";path='/';expires=" + d.toGMTString()
+      document.cookie = "code="  + pwdCode +";path='/';expires=" + d.toGMTString()
+    },
+    getCookie () {
+      // 记住密码功能，把用户名+密码保存在cookie，刷新页面时能自动加载进来
+      // 尽管没有手动写入用户名+密码，但是在created钩子里，已经帮我们加载进来了
+      if (document.cookie.length > 0) {
+        var arr = document.cookie.split(";")
+        arr.forEach(val=>{
+          var arr1 = val.trim().split("=")
+          if(arr1[0] == 'mobile'){
+            this.loginForm.mobile = arr1[1]
+          }else if(arr1[0] == 'code'){
+            var bytes = CryptoJS.AES.decrypt(arr1[1], 'secret key 123').toString(CryptoJS.enc.Utf8)
+            this.loginForm.code = bytes
+          }
+        })
+      }
+    },
+    clearCookie () {
+      this.setCookie("", "", -1); // 把过期时间改了就行
+    }
   },
 
-  updated() {
-    
+  created() {
+    this.getCookie()
   },
 };
 </script>

@@ -4,10 +4,15 @@
 
 <script>
 export default {
-  name: 'Content'
+  name: 'Content',
+  methods: {
+    
+  },
+  mounted () {
+    
+  }
 }
 </script>
 
 <style lang='less' scoped>
-
 </style>

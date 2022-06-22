@@ -109,7 +109,7 @@ export default {
         // 验证通过，跳转
         const res = await this.onLogin(this.loginForm);
         this.$message.success("欢迎登录");
-        this.$router.push("/content");
+        this.$router.push("/");
         // 验证通过的同时，把账号和密码通过加密的方式，保存到cookie中
         if (this.loginForm.checked == true) {
           setCookie(this.loginForm.mobile, this.loginForm.code, 7);

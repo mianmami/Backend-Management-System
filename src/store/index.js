@@ -15,7 +15,7 @@ export default new Vuex.Store({
     // 把登录时返回的用户信息，记录在Vuex, 同时在session保存一份
     setUser (state, value) {
       state.userInfo = value
-      setItem('userInfo', )
+      setItem('userInfo', state.userInfo)
     },
 
     // 把loading状态记录在vuex

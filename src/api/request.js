@@ -5,4 +5,7 @@ const request = axios.create({
   timeout: '5000',
 })
 
+request.interceptors.request.use(config=>{
+  return config
+})
 export {request}

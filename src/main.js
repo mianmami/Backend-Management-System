@@ -4,16 +4,21 @@ import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'
 
-import '@/assets/css/global.less' // 自定义全局样式
+import '@/assets/css/index.less' // 自定义全局样式
 import 'element-ui/lib/theme-chalk/index.css'; // ElementUI样式
 
+import permission from './plugins/permission'
 Vue.use(ElementUI)
+Vue.use(permission)
 
 Vue.config.productionTip = false
 
 new Vue({
   router,
   store,
+  data :{
+    name: 'huang'
+  },
   render: h => h(App),
   beforeCreate () {
     Vue.prototype.$bus = this

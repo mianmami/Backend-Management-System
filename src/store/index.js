@@ -7,8 +7,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    userInfo: null,
-    isLoading : false
+    userInfo: getItem("userInfo") || null,
+    isLoading : false,
+    userDetailInfo: getItem('userDetailInfo') || null,
   },
 
   mutations: {
@@ -24,6 +25,17 @@ export default new Vuex.Store({
     },
     stopLoading (state, value) {
       state.isLoading = false
+    },
+
+    // 记录用户的详细信息，和个人设置里的内容是一样的
+    setUserDetailInfo(state, value){
+      state.userDetailInfo = value
+      setItem('userDetailInfo', value)
+    },
+
+    removeUserInfo (state, value) {
+      removeItem(value)
+      state.userInfo = null
     }
     
   },

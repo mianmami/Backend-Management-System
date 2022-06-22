@@ -39,7 +39,9 @@ export default {
     onCollapseSide() {
       this.isCollapse = !this.isCollapse;
     },
+    
   },
+  
 };
 </script>
 
@@ -61,7 +63,7 @@ export default {
     }
   }
   .el-header {
-    background-color: #b3c0d1;
+    background-color: white;
   }
   .el-aside {
     transition: width 0.8s;

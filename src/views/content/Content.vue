@@ -8,9 +8,9 @@
     </el-card>
     <el-card class="">
       <div slot="header">
-        
+        <span>共找到{{ total }}条记录</span>
       </div>
-        <ContentTable></ContentTable>
+        <ContentTable @onGetTotalCount="onGetTotalCount"></ContentTable>
     </el-card>
   </div>
 </template>
@@ -22,7 +22,16 @@ import ContentTable from "./components/ContentTable.vue";
 export default {
   name: "Content",
   components: { BreadCrumb, ContentSearch, ContentTable },
-  methods: {},
+  data(){
+    return {
+      total: ''
+    }
+  },
+  methods: {
+    onGetTotalCount(total){
+      this.total=total
+    }
+  },
   mounted() {},
 };
 </script>

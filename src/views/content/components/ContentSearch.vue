@@ -24,7 +24,7 @@
       </el-form-item>
       
       <el-form-item>
-        <el-button type="primary" @click="onSubmit" round s>筛选</el-button>
+        <el-button type="primary" @click="onSubmit" round :loading='isLoading'>{{isLoading ? "筛选中" : "筛选"}}</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -32,6 +32,7 @@
 
 <script>
 import {getArticleChannel} from '@/api/article'
+import {mapMutations, mapState} from 'vuex'
 export default {
   name: "ContentSearch",
   data() {
@@ -43,8 +44,13 @@ export default {
       channels: []
     };
   },
+  computed:{
+    ...mapState(['isLoading'])
+  },
   methods: {
+    ...mapMutations(["startLoading"]),
     onSubmit() {
+      this.startLoading();
       this.$bus.$emit("selectData", this.form)
     },
     async loadArticleChannel () {

@@ -1,6 +1,15 @@
 <template>
   <div class="contentTable-container">
-    <el-table :data="tableData" size="mini">
+    <el-table
+      :data="tableData"
+      size="mini"
+      stripe
+      height="500px"
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0.8)"
+    >
       <el-table-column prop="" label="封面">
         <template slot-scope="scope">
           <el-image
@@ -58,6 +67,7 @@
       :current-page.sync="params.page"
       :page-size.sync="params.per_page"
       @current-change="onPageChange"
+      :disabled="loading"
     >
     </el-pagination>
   </div>
@@ -65,6 +75,8 @@
 
 <script>
 import { getArticleList, deleteArticle } from "@/api/article";
+import { mapMutations, mapState } from "vuex";
+import {sleep} from '@/utils/sleep';
 export default {
   name: "ContentTable",
   data() {
@@ -74,18 +86,30 @@ export default {
       currentPage: "",
       params: {
         page: 1,
-        per_page: 20,
+        per_page: 10,
         status: null,
         channel_id: null,
       },
+      loading: false
     };
   },
+  computed: {
+    ...mapState(["isLoading"]),
+  },
   methods: {
+    ...mapMutations(["stopLoading"]),
     async loadArticles() {
+      this.loading = true;
+      await sleep(3000) // 故意让几秒钟后才开始获取数据
       const res = await getArticleList(this.params);
       const data = res.data.data;
       this.tableData = data.results;
       this.total_count = data.total_count;
+      this.$emit("onGetTotalCount", this.total_count);
+      
+      this.loading = false
+      this.stopLoading()
+      
     },
     onPageChange() {
       this.loadArticles();

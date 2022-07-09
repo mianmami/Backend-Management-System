@@ -59,10 +59,10 @@ export default {
     };
     return {
       loginForm: {
-        // mobile: "13911111111",
-        // code: "246810",
-        mobile: "",
-        code: "",
+        mobile: "13911111111",
+        code: "246810",
+        // mobile: "",
+        // code: "",
         isAgree: true,
         checked: true,
       },

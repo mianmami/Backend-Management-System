@@ -40,3 +40,16 @@ export function deleteArticle (target) {
     url: `mp/v1_0/articles/${target}`
   })
 }
+
+/* 
+  修改文章状态
+*/
+
+export function changeArticleCommentStatus (article_id, allow_comment) {
+  return request({
+    method: 'PUT',
+    url: '/mp/v1_0/comments/status',
+    params: {article_id},
+    data: {allow_comment}
+  })
+}

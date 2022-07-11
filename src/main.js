@@ -16,9 +16,6 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
-  data :{
-    name: 'huang'
-  },
   render: h => h(App),
   beforeCreate () {
     Vue.prototype.$bus = this

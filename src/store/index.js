@@ -33,6 +33,10 @@ export default new Vuex.Store({
       setItem('userDetailInfo', value)
     },
 
+    updateUserDetailInfo (state, value) {
+      Object.assign(state.userDetailInfo, value)
+    },
+
     removeUserInfo (state, value) {
       removeItem(value)
       state.userInfo = null

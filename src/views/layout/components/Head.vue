@@ -67,6 +67,9 @@ export default {
   },
   created() {
     this.loadUserProfile();
+    this.$bus.$on('change-header-info', (obj)=>{
+      Object.assign(this.userProfile, obj);
+    })
   },
 };
 </script>

@@ -115,7 +115,12 @@ export default {
       this.loadArticles();
     },
     handleEdit(index, row) {
-      this.$router.push("/essay");
+      this.$router.push({
+        path: '/essay',
+        query:{
+          id: row.id
+        }
+      });
     },
     handleDelete(index, row) {
       this.$confirm("是否删除", "提示", {

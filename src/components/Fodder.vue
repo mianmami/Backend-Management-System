@@ -5,7 +5,7 @@
         <el-radio-button :label="false">全部</el-radio-button>
         <el-radio-button :label="true">收藏</el-radio-button>
       </el-radio-group>
-      <el-button type="success" size="small" @click="dialogVisible = true"
+      <el-button type="success" size="small" @click="dialogVisible = true" v-show="!hideUpload"
         >上传图片</el-button
       >
     </div>
@@ -19,8 +19,13 @@
         v-for="(item, index) in images"
         :key="index"
       >
-        <el-image :src="item.url" fit="cover" class="material-image"></el-image>
-        <div class="collect-delete">
+        <el-image :src="item.url" fit="cover" class="material-image" @click='selectImage(index, item.url)'></el-image>
+        <el-image
+          class='selected'
+          :src = "require('@/assets/images/essay/selected.png')"
+          v-if='currentSelectedIndex == index && hideSelect'
+        ></el-image>
+        <div class="collect-delete" v-if='!hideAction'>
           <el-button
             circle
             type="warning"
@@ -74,7 +79,6 @@ export default {
   name: "Fodder",
   data() {
     const { token } = getItem("userInfo");
-    console.log(token);
     return {
       category: false, // 状态
       total: 0, // 所有图片的数量
@@ -88,7 +92,22 @@ export default {
       uploadHeaders: {
         Authorization: `Bearer ${token}`,
       }, // 上传图片所需要的请求头参数
+      currentSelectedIndex: -1, // 用于控制显示选择的图片勾
     };
+  },
+  props:{
+    hideAction:{
+      default: false,
+      type: Boolean,
+    },
+    hideUpload:{
+      default: false,
+      type: Boolean,
+    },
+    hideSelect: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
     async loadUserImage() {
@@ -102,8 +121,11 @@ export default {
         val.loading = false;
       });
       this.isDisable = false;
-      this.images = res.data.data.results;
-      this.total = res.data.data.total_count;
+      this.images = res.data.data.results; // 这是服务器端的bug， 在后面几页返回的total是0
+      if (this.total == 0) {
+        this.total = res.data.data.total_count;
+      }
+      
       if (this.currentStatus == false) {
         this.allImages = this.images;
       } else {
@@ -112,6 +134,7 @@ export default {
     },
     handleCurrentPageChange(page) {
       this.page = page;
+      this.currentSelectedIndex = -1
       this.loadUserImage();
     },
     changeCategory(state) {
@@ -150,6 +173,10 @@ export default {
       });
       this.images = res.data.results;
     },
+    selectImage(idx, url){
+      this.currentSelectedIndex = idx;
+      this.$emit("selected-img", url)
+    }
   },
   mounted() {
     this.loadUserImage();
@@ -198,6 +225,16 @@ export default {
     .el-upload-dragger{
       width: 100%;
     }
+  }
+
+  .selected{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 150px;
+    height: 150px;
   }
 
 </style>

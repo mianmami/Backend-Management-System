@@ -53,3 +53,32 @@ export function changeArticleCommentStatus (article_id, allow_comment) {
     data: {allow_comment}
   })
 }
+
+// 发布文章
+export function addArticle (data, draft = false) {
+  return request({
+    method: 'POST',
+    url: '/mp/v1_0/articles',
+    data,
+    params: {
+      draft
+    }
+  })
+}
+
+// 获取指定文章的相关内容
+export function getArticleContent (articleId) {
+  return request({
+    method: 'GET',
+    url: `/mp/v1_0/articles/${articleId}`
+  })
+}
+
+// 修改文章
+export function updateArticle (articleId, data, draft = false) {
+  return request({
+    method: 'PUT',
+    url: `/mp/v1_0/articles/${articleId}`,
+    data
+  })
+}

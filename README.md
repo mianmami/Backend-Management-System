@@ -43,4 +43,6 @@ vuex不能持久化保存数据，页面刷新，state中保存的数据会消�
 项目中用的折叠方式是自己用transition标签写的，而不是elementUI自带的
 
 使用NPprogress，来进行进度条的加载
+
+this.$refs.editPublish.$el.innerText = '发布中....' // $el:获取vue实例关联的dom对象 elementUI的文本可以通过这个来进行改变
 ```

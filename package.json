@@ -12,6 +12,7 @@
     "core-js": "^3.8.3",
     "cropperjs": "^1.5.12",
     "crypto-js": "^4.1.1",
+    "element-tiptap": "^1.27.1",
     "element-ui": "^2.15.9",
     "json-bigint": "^1.0.0",
     "nprogress": "^0.2.0",

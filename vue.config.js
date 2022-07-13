@@ -22,6 +22,7 @@ module.exports = defineConfig({
     //   .set("api", resolve("src/api"))
     //   .set("plugins", resolve("src/plugins"));
    
-  }
+  },
+  publicPath: './'
 
 })

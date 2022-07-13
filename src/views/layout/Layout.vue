@@ -33,7 +33,7 @@ export default {
   components: { Head, Side },
   data() {
     return {
-      isCollapse: true,
+      isCollapse: false,
     };
   },
   methods: {

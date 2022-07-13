@@ -13,6 +13,8 @@ npm run serve
 ### Compiles and minifies for production
 ```
 npm run build
+
+serve -s dist :开启
 ```
 
 ### Lints and fixes files
@@ -53,6 +55,10 @@ vue路径中 @默认代表 src目录
 
 
 ```
+
+### 未解决错误
+这个是如何将Vue项目配置到远程服务器的教程(有两个点未解决：1.publickPaht要设置为相对路径2.必须使用hash否则就会报错)
+https://codeantenna.com/a/4MHoktF5Ks
 ## 页面展示
 <center><img src='https://github.com/mianmami/Backend-Management-System/blob/master/src/assets/images/display/home.png?raw=true' style='width:70%;'></center>
 

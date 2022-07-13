@@ -23,7 +23,6 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-### 页面展示
 
 
 ### 备注
@@ -54,3 +53,15 @@ vue路径中 @默认代表 src目录
 
 
 ```
+## 页面展示
+<center><img src='https://github.com/mianmami/Backend-Management-System/blob/master/src/assets/images/display/home.png?raw=true' style='width:70%;'></center>
+
+<center><img src='https://github.com/mianmami/Backend-Management-System/blob/master/src/assets/images/display/content.png?raw=true' style='width:70%;'></center>
+
+<center><img src='https://github.com/mianmami/Backend-Management-System/blob/master/src/assets/images/display/essay.png?raw=true' style='width:70%;'></center>
+
+<center><img src='https://github.com/mianmami/Backend-Management-System/blob/master/src/assets/images/display/comment.png?raw=true' style='width:70%;'></center>
+
+<center><img src='https://github.com/mianmami/Backend-Management-System/blob/master/src/assets/images/display/resource.png?raw=true' style='width:70%;'></center>
+
+<center><img src='https://github.com/mianmami/Backend-Management-System/blob/master/src/assets/images/display/setting.png?raw=true' style='width:70%;'></center>

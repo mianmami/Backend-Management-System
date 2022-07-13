@@ -39,6 +39,25 @@
         >
       </el-form-item>
     </el-form>
+    <vue-particles
+      color="#fff"
+      :particleOpacity="0.7"
+      :particlesNumber="60"
+      shapeType="triangle"
+      :particleSize="6"
+      linesColor="#FFF"
+      :linesWidth="1"
+      :lineLinked="true"
+      :lineOpacity="0.4"
+      :linesDistance="150"
+      :moveSpeed="3"
+      :hoverEffect="true"
+      hoverMode="grab"
+      :clickEffect="true"
+      clickMode="push"
+      id="particles-js"
+    >
+    </vue-particles>
   </div>
 </template>
 

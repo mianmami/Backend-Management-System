@@ -15,6 +15,7 @@
           <Head></Head>
         </el-header>
         <el-main>
+          <!-- out-in: 先让原来的页面离开，然后再让最近的页面进入 -->
           <transition name='fade-transform' mode='out-in'>
             <router-view></router-view>
           </transition>

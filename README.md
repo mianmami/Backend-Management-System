@@ -45,4 +45,6 @@ vuex不能持久化保存数据，页面刷新，state中保存的数据会消�
 使用NPprogress，来进行进度条的加载
 
 this.$refs.editPublish.$el.innerText = '发布中....' // $el:获取vue实例关联的dom对象 elementUI的文本可以通过这个来进行改变
+
+transition有个属性 mode='out-in' 先让原来的页面离开，然后再让最近的页面进入
 ```
